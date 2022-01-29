@@ -1,1 +1,22 @@
 # optical-flow-attack
+
+Architecture | Dataset the model was trained         | Dataset the attack was evaluated | MSE with squared box as noise with shape 50*50 | MSE with squared box as noise with shape 100*100 | MSE with squared box as noise with shape 150*150 | MSE with squared box as noise with shape 200*200 |
+--- |---------------------------------------|------------------------------|-----------------------------------------------------|-------------------------------------------------------|-------------------------------------------------------|-------------------------------------------------------|
+PWC-Net | FlyingChairs + FlyingThing3d subset + Sintel + KITTI2015 + HD1K                                | Kittie                   | 0.336                                                 | 1.186                                                   | 8.767                                                   | 19.185                                                   
+FlowNet2 | FlyingThing3d subset                  | Kittie                         | 0.174                                                 | 0.606                                                   | 2.006                                                   | 6.653                                                   
+RAFT | Mixed of FlyingChairs, FlyingThing3d, Sintel, KITTI2015, and HD1K                             | Kittie                             | 5.141                                                 | 2.456                                                   | 9.001                                                   | 15.201                                                   
+LightFlowNet2 | Flying Chairs + Flying Thing3d subset |       Kittie                       | 0.275                                                 | 1.063                                                   | 5.330                                                   | 13.639                                                   
+
+### MSE function I used to compare images
+
+```python
+def MSE(imageA, imageB):
+    err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
+    err /= float(imageA.shape[0] * imageA.shape[1])
+    return err
+```
+### Example of attacked PWC-Net with box size 200*200
+![pwcnet_200_200](pwcnet_200_200.gif)
+
+### Example of attacked RAFT with box size 200*200
+![raft_200_200](raft_200_200.gif)
